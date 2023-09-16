@@ -1,0 +1,30 @@
+_target_: vc_models.models.load_model
+model:
+  _target_: vc_models.models.vit.vit.load_mae_encoder
+  checkpoint_path: model_ckpts/vc1_vitl.pth
+  model:
+    _target_: vc_models.models.vit.vit.vit_large_patch16
+    img_size: 128
+    use_cls: True
+    drop_path_rate: 0.0
+transform:
+  _target_: vc_models.transforms.transform_augment
+  resize_size: 128
+  output_size: 128
+  jitter: true
+  jitter_prob: 1.0
+  jitter_brightness: 0.3
+  jitter_contrast: 0.3
+  jitter_saturation: 0.3
+  jitter_hue: 0.3
+  shift: true
+  shift_pad: 4
+  randomize_environments: False
+metadata:
+  algo: mae
+  model: vit_large_patch16
+  data:
+    - ego
+    - imagenet
+    - inav
+  comment: 182_epochs

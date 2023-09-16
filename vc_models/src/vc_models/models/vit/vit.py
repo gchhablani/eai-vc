@@ -223,6 +223,7 @@ def vit_huge_patch14(**kwargs):
 
 def load_mae_encoder(model, checkpoint_path=None):
     if checkpoint_path is None:
+        print("Checkpoint is None! Skipping load")
         return model
     else:
         model_utils.download_model_if_needed(checkpoint_path)
@@ -231,6 +232,7 @@ def load_mae_encoder(model, checkpoint_path=None):
         model_base_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','..')
         checkpoint_path = os.path.join(model_base_dir,checkpoint_path)
         
+    print("Loading Checkpoint: ", checkpoint_path)
     state_dict = torch.load(checkpoint_path, map_location="cpu")["model"]
     if state_dict["pos_embed"].shape != model.pos_embed.shape:
         state_dict["pos_embed"] = resize_pos_embed(
